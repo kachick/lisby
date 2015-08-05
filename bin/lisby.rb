@@ -3,4 +3,4 @@
 
 require_relative '../lib/lisby'
 
-Lisby.repl
+Lisby.new.repl

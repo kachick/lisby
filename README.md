@@ -1,7 +1,7 @@
 Lisby
 =======================
 
-[![Build Status](https://secure.travis-ci.org/kachick/calc.rb.png)](http://travis-ci.org/kachick/lisby)
+[![Build Status](https://secure.travis-ci.org/kachick/lisby.png)](http://travis-ci.org/kachick/lisby)
 
 Description
 -----------
@@ -15,6 +15,11 @@ Features
 Usage
 -----
 
+REPL
+
+```shell
+bin/lisby.rb
+```
 
 Requirements
 -------------

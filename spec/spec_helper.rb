@@ -2,4 +2,4 @@
 
 require 'rspec'
 
-require_relative '../lib/calc'
+require_relative '../lib/lisby'

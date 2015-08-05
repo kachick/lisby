@@ -1,5 +1,5 @@
 # coding: us-ascii
 
-module Lisby
+class Lisby
   VERSION = '0.0.1'.freeze
 end
