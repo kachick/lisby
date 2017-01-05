@@ -60,7 +60,7 @@ describe Lisby do
       it { expect(run).to eq(93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000) }
     end
 
-    context '3rd' do
+    context 'mixed 1st and 2nd' do
       let!(:code) {
         <<~CODE
           (define area (lambda (r) (* 3.141592653 (* r r))))
@@ -70,6 +70,19 @@ describe Lisby do
       }
 
       it { expect(run).to eq(41369087198016.19) } # The origin said `4.1369087198e+13`
+    end
+
+    context '3rd' do
+      let!(:code) {
+        <<~CODE
+          (define first car)
+          (define rest cdr)
+          (define count (lambda (item L) (if L (+ (equal? item (first L)) (count item (rest L))) 0)))
+          (count 0 (list 0 1 2 3 0 0))
+        CODE
+      }
+
+      it { expect(run).to eq(3) }
     end
   end
 end

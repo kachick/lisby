@@ -30,10 +30,16 @@ class Lisby
       symbol?: -> x { x.instance_of? Symbol }
     }.freeze
     
+    class << self
+      def global
+        new base: DEFAULT
+      end
+    end
+
     def_delegators :@hash, :fetch, :[]=
     
-    def initialize(vars: [], args: [], outer: nil)
-      @hash = DEFAULT.merge vars.zip(args).to_h
+    def initialize(vars: [], args: [], outer: nil, base: {})
+      @hash = base.merge vars.zip(args).to_h
       @outer = outer
     end
     

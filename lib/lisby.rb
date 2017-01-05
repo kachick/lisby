@@ -20,39 +20,48 @@ class Lisby
   end
   
   def initialize
-    @global_environment = Environment.new
+    @global_environment = Environment.global
   end
   
-  def evaluate(x, env=@global_environment)
+  def evaluate(x, env: @global_environment)
     case x
     when Symbol
       env.get_value x
     when Array
       case x.first
       when :quote # (quote exp)
+        raise unless x.length == 1
         x.drop 1
       when :if # (if test conseq alt)
+        raise unless x.length == 4
         test, conseq, alt = *x.drop(1)
-        evaluate((evaluate(test, env) ? conseq : alt), env)
+
+        evaluate((evaluate(test, env: env) ? conseq : alt), env: env)
       when :set! # (set! var exp)
+        raise unless x.length == 3
         var, exp = *x.drop(1)
-        env.set_value var, evaluate(exp, env)
+
+        env.set_value var, evaluate(exp, env: env)
         nil
       when :define # (define var exp)
+        raise unless x.length == 3
         var, exp = *x.drop(1)
-        env.define var, evaluate(exp, env)
+
+        env.define var, evaluate(exp, env: env)
         nil
       when :lambda # (lambda (var*) exp)
+        raise unless x.length == 3
         vars, exp = *x.drop(1)
-        ->*args{ evaluate exp, Environment.new(vars: vars, args: args, outer: env) }
+
+        ->*args{ evaluate exp, env: Environment.new(vars: vars, args: args, outer: env) }
       when :begin # (begin exp*)
         val = nil
         x.drop(1).each do |_exp|
-          val = evaluate _exp, env
+          val = evaluate _exp, env: env
         end
         val
       else # (proc exp*)
-        exps = x.map{ |_exp| evaluate _exp, env }
+        exps = x.map{ |_exp| evaluate _exp, env: env }
         _proc = exps.shift
         _proc.call(*exps)
       end
