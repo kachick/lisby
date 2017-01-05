@@ -4,12 +4,13 @@ require_relative 'spec_helper'
 
 describe Lisby do
   let!(:lisby) { Lisby.new }
-  let!(:expression) { "(begin (define r 3) (* 3.141592653 (* r r)))" }
-  let!(:tokens) { ["(", "begin", "(", "define", "r", "3", ")", "(", "*", "3.141592653", "(", "*", "r", "r", ")", ")", ")"] }
-  let!(:parsed) { [:begin, [:define, :r, 3], [:'*', 3.141592653, [:'*', :r, :r]]] }
-  let!(:result) { 28.274333877 }
 
   context 'basic methods' do
+    let!(:expression) { "(begin (define r 3) (* 3.141592653 (* r r)))" }
+    let!(:tokens) { ["(", "begin", "(", "define", "r", "3", ")", "(", "*", "3.141592653", "(", "*", "r", "r", ")", ")", ")"] }
+    let!(:parsed) { [:begin, [:define, :r, 3], [:'*', 3.141592653, [:'*', :r, :r]]] }
+    let!(:result) { 28.274333877 }
+
     describe '#tokenize' do
       it { expect(lisby.tokenize expression).to eq(tokens) }
     end
