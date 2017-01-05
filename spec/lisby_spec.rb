@@ -23,4 +23,53 @@ describe Lisby do
       it { expect(lisby.evaluate parsed).to eq(result) }
     end
   end
+
+  context 'example from http://www.aoky.net/articles/peter_norvig/lispy.htm' do
+    subject(:run) { Lisby.load(code) }
+
+    context '1st' do
+      let!(:code) {
+        <<~CODE
+          (define area (lambda (r) (* 3.141592653 (* r r))))
+          (area 3)
+        CODE
+      }
+
+      it { expect(run).to eq(28.274333877) }
+    end
+
+    context '2nd' do
+      let!(:code) {
+        <<~CODE
+          (define fact (lambda (n) (if (<= n 1) 1 (* n (fact (- n 1))))))
+          (fact 10)
+        CODE
+      }
+
+      it { expect(run).to eq(3628800) }
+    end
+
+    context '2nd with another example' do
+      let!(:code) {
+        <<~CODE
+          (define fact (lambda (n) (if (<= n 1) 1 (* n (fact (- n 1))))))
+          (fact 100)
+        CODE
+      }
+
+      it { expect(run).to eq(93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000) }
+    end
+
+    context '3rd' do
+      let!(:code) {
+        <<~CODE
+          (define area (lambda (r) (* 3.141592653 (* r r))))
+          (define fact (lambda (n) (if (<= n 1) 1 (* n (fact (- n 1))))))
+          (area (fact 10))
+        CODE
+      }
+
+      it { expect(run).to eq(41369087198016.19) } # The origin said `4.1369087198e+13`
+    end
+  end
 end
