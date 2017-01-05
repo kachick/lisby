@@ -8,6 +8,17 @@ require_relative 'lisby/version'
 require_relative 'lisby/environment'
 
 class Lisby
+  class << self
+    def load(code)
+      interpreter = new
+      ret = nil
+      code.each_line do |line|
+        ret = interpreter.evaluate(interpreter.parse(line))
+      end
+      ret
+    end
+  end
+  
   def initialize
     @global_environment = Environment.new
   end
