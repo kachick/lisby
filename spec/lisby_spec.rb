@@ -72,17 +72,30 @@ describe Lisby do
       it { expect(run).to eq(41369087198016.19) } # The origin said `4.1369087198e+13`
     end
 
-    context '3rd' do
+    # context '3rd' do
+    #   let!(:code) {
+    #     <<~CODE
+    #       (define first car)
+    #       (define rest cdr)
+    #       (define count (lambda (item L) (if L (+ (equal? item (first L)) (count item (rest L))) 0)))
+    #       (count 0 (list 0 1 2 3 0 0))
+    #     CODE
+    #   }
+
+    #   it { expect(run).to eq(3) }
+    # end
+
+    context '3rd another' do
       let!(:code) {
         <<~CODE
           (define first car)
           (define rest cdr)
           (define count (lambda (item L) (if L (+ (equal? item (first L)) (count item (rest L))) 0)))
-          (count 0 (list 0 1 2 3 0 0))
+          (count (quote the) (quote (the more the merrier the bigger the better)))
         CODE
       }
 
-      it { expect(run).to eq(3) }
+      it { expect(run).to eq(4) }
     end
   end
 end

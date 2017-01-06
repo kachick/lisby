@@ -24,13 +24,14 @@ class Lisby
   end
   
   def evaluate(x, env: @global_environment)
+    puts x
     case x
     when Symbol
       env.get_value x
     when Array
       case x.first
       when :quote # (quote exp)
-        raise unless x.length == 1
+        raise unless x.length >= 2
         x.drop 1
       when :if # (if test conseq alt)
         raise unless x.length == 4
@@ -51,9 +52,9 @@ class Lisby
         nil
       when :lambda # (lambda (var*) exp)
         raise unless x.length == 3
-        vars, exp = *x.drop(1)
+        _, params, exp = *x
 
-        ->*args{ evaluate exp, env: Environment.new(vars: vars, args: args, outer: env) }
+        ->*args{ evaluate exp, env: Environment.new(vars: params, args: args, outer: env) }
       when :begin # (begin exp*)
         val = nil
         x.drop(1).each do |_exp|
